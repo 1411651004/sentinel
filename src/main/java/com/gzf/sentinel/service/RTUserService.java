@@ -64,12 +64,9 @@ public class RTUserService {
      * @param id
      * @return
      */
-    @SentinelResource(value = "gzf",blockHandler = "blockHandlerForGetUser", fallback = "fallbackHandlerForGetUser")
+    @SentinelResource(value = "userDegradeRuleResource",blockHandler = "blockHandlerForGetUser", fallback = "fallbackHandlerForGetUser")
     public User getUserByRTDegradeRule(int id) {
-        Entry entry = null;
         try {
-
-            entry = SphU.entry(USER_DEGRADERULE_RES);
             //第5个请求开始超过阀值100ms
             if (id > 5) {
                 TimeUnit.MILLISECONDS.sleep(150);
@@ -82,18 +79,36 @@ public class RTUserService {
             //DB.InsertUser(user); //长耗时的工作
             return user;
         } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (BlockException e) {
-            e.printStackTrace();
-            System.out.println(e + "[getUser] has been protected! id=" + id);
-            return new User("发生熔断，进入降级业务处理！");
-            //return new User("block user" + id);
-        } finally {
-            if (entry != null) {
-                entry.exit();
-            }
+            return null;
         }
-        return null;
+//        Entry entry = null;
+//        try {
+//
+//            entry = SphU.entry(USER_DEGRADERULE_RES);
+//            //第5个请求开始超过阀值100ms
+//            if (id > 5) {
+//                TimeUnit.MILLISECONDS.sleep(150);
+//            }
+//            // 业务代码
+//            User user = new User();
+//            user.setId(id);
+//            user.setName("user-" + id);
+//            Thread.currentThread().sleep(20);
+//            //DB.InsertUser(user); //长耗时的工作
+//            return user;
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (BlockException e) {
+//            e.printStackTrace();
+//            System.out.println(e + "[getUser] has been protected! id=" + id);
+//            return new User("发生熔断，进入降级业务处理！");
+//            //return new User("block user" + id);
+//        } finally {
+//            if (entry != null) {
+//                entry.exit();
+//            }
+//        }
+//        return null;
     }
 
     @SentinelResource(blockHandler = "blockHandlerForGetUser", fallback = "fallbackHandlerForGetUser")
@@ -131,7 +146,7 @@ public class RTUserService {
         return new User("熔断----block user" + id);
     }
 
-    public User fallbackHandlerForGetUser() {
+    public User fallbackHandlerForGetUser(int id,Throwable throwable) {
         return new User("fallback user");
     }
 
