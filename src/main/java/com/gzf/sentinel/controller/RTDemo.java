@@ -35,6 +35,11 @@ public class RTDemo {
         return usersList;
     }
 
+    /**
+     * 基于异常数的熔断降级验证
+     * @return
+     * @throws InterruptedException
+     */
     @GetMapping("/getUserByRATIODegradeRule")
     public List<User> getUserByRATIODegradeRule() throws InterruptedException {
 

@@ -4,6 +4,7 @@ import com.alibaba.csp.sentinel.Entry;
 import com.alibaba.csp.sentinel.SphU;
 import com.alibaba.csp.sentinel.datasource.ReadableDataSource;
 import com.alibaba.csp.sentinel.datasource.nacos.NacosDataSource;
+import com.alibaba.csp.sentinel.slots.block.RuleConstant;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 import com.alibaba.fastjson.JSON;
@@ -11,6 +12,7 @@ import com.alibaba.fastjson.TypeReference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,6 +37,15 @@ public class SentinelNacosController {
     }
 
     private void init() {
+//        List<FlowRule> rules = new ArrayList<FlowRule>();
+//        FlowRule rule2 = new FlowRule();
+//        rule2.setResource("hello");
+//        rule2.setCount(1);
+//        rule2.setGrade(RuleConstant.FLOW_GRADE_QPS);
+//        rule2.setLimitApp("default");
+//        rules.add(rule2);
+//        FlowRuleManager.loadRules(rules);
+
         // 使用 Nacos 数据源作为配置中心，需要在 REMOTE_ADDRESS 上启动一个 Nacos 的服务
         ReadableDataSource<String, List<FlowRule>> ds = new NacosDataSource<>(REMOTE_ADDRESS, GROUP_ID,
                 APP_NAME + FLOW_POSTFIX,
