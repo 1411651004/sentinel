@@ -45,7 +45,7 @@ public class RTUserService {
     }
 
 
-    private static void initDegradeRATIORule() {
+    private void initDegradeRATIORule() {
         List<DegradeRule> rules = new ArrayList<DegradeRule>();
         DegradeRule rule = new DegradeRule();
         rule.setResource(USER_DEGRADERATIORULE_RES);
@@ -111,8 +111,9 @@ public class RTUserService {
 //        return null;
     }
 
-    @SentinelResource(blockHandler = "blockHandlerForGetUser", fallback = "fallbackHandlerForGetUser")
+    //@SentinelResource(blockHandler = "blockHandlerForGetUser", fallback = "fallbackHandlerForGetUser")
     public User getUserByRATIODegradeRule(int id) {
+        initDegradeRATIORule();
         Entry entry = null;
         try {
 
