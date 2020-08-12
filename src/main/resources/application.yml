@@ -20,4 +20,15 @@ spring:
 #            rule-type: flow
 
 
+  datasource:
+    url: jdbc:mysql://39.105.31.111:3306/sentinel
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# 之后的填写mybatis的mapper书写路径
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+
 

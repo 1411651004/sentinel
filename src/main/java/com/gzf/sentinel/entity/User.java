@@ -1,4 +1,4 @@
-package com.gzf.sentinel.entry;
+package com.gzf.sentinel.entity;
 
 import lombok.Data;
 

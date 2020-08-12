@@ -1,4 +1,4 @@
-package com.gzf.sentinel.streamtest;
+package com.gzf.sentinel.config;
 
 import com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
