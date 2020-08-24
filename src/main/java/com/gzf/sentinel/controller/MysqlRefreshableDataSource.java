@@ -4,8 +4,10 @@ import com.alibaba.csp.sentinel.datasource.AutoRefreshDataSource;
 import com.alibaba.csp.sentinel.datasource.Converter;
 import com.alibaba.csp.sentinel.log.RecordLog;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
+import com.gzf.sentinel.config.ApplicationContextUtil;
 import com.gzf.sentinel.entity.ResourceRoleQps;
 import com.gzf.sentinel.config.DataSourceUtils;
+import com.gzf.sentinel.mapper.ResourceRoleQpsMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -50,32 +52,21 @@ public class MysqlRefreshableDataSource extends AutoRefreshDataSource<List<Resou
     @Override
     public List<ResourceRoleQps> readSource() throws Exception {
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSourceUtils.getDataSource());
-        return jdbcTemplate.query("select id, app_id, api, limit_qps, create_at from resource_role_qps"
-                ,new RowMapper<ResourceRoleQps>(){
-                    @Override
-                    public ResourceRoleQps mapRow(ResultSet resultSet, int i) throws SQLException {
-                        return new ResourceRoleQps(resultSet.getLong("id"),
-                                resultSet.getString("app_id"),
-                                resultSet.getString("api"),
-                                resultSet.getLong("limit_qps"),
-                                resultSet.getLong("create_at"));
-                    }
-                });
-
-        //List<ResourceRoleQps> resourceRoleQps = resourceRoleQpsMapper.selectAll();
-//        List<ResourceRoleQps> resourceRoleQps = new ArrayList<>();
-//
-//        ResourceRoleQps resource = new ResourceRoleQps();
-//        resource.setAppId("default");
-//        resource.setId(1L);
-//        resource.setCreateAt(1597129380812L);
-//        resource.setLimitQps(1L);
-//        resource.setApi("gzf1111");
-//        resourceRoleQps.add(resource);
-//        System.out.println(resourceRoleQps.toString());
-//        System.out.println("##########执行完毕##########");
-//        return resourceRoleQps;
+        return ApplicationContextUtil.getBean(ResourceRoleQpsMapper.class).selectAll();
+        //JDBC的方式实现
+//        System.out.println(a.get(0));
+//        JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSourceUtils.getDataSource());
+//        return jdbcTemplate.query("select id, app_id, api, limit_qps, create_at from resource_role_qps"
+//                ,new RowMapper<ResourceRoleQps>(){
+//                    @Override
+//                    public ResourceRoleQps mapRow(ResultSet resultSet, int i) throws SQLException {
+//                        return new ResourceRoleQps(resultSet.getLong("id"),
+//                                resultSet.getString("app_id"),
+//                                resultSet.getString("api"),
+//                                resultSet.getLong("limit_qps"),
+//                                resultSet.getLong("create_at"));
+//                    }
+//                });
     }
 
     @Override

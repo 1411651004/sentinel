@@ -7,7 +7,7 @@ import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRuleManager;
-import com.gzf.sentinel.entry.User;
+import com.gzf.sentinel.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

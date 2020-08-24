@@ -5,6 +5,8 @@ import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
+import com.gzf.sentinel.mapper.ResourceRoleQpsMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import java.util.List;
 @Service
 public class RelationService {
 
+    @Autowired
+    ResourceRoleQpsMapper resourceRoleQpsMapper;
     {
         initRole();
     }
@@ -46,7 +50,8 @@ public class RelationService {
     @SentinelResource(value = "ceshiB",blockHandler = "blockHandlerForGetUser")
     public String testB() {
         //TODO：规则必须带进来
-        //initRole();
+        System.out.println(resourceRoleQpsMapper.selectAll());
+        initRole();
         return "success testB!";
     }
 

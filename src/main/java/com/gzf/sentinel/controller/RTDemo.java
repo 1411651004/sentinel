@@ -1,7 +1,7 @@
 package com.gzf.sentinel.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.gzf.sentinel.entry.User;
+import com.gzf.sentinel.entity.User;
 import com.gzf.sentinel.service.RTUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

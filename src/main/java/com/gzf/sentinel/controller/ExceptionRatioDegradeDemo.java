@@ -15,9 +15,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * sentinel基于异常数的验证
+ * sentinel基于异常比例的验证
  */
-public class ExceptionCountDegradeDemo {
+public class ExceptionRatioDegradeDemo {
+
     private static final String KEY = "abc";
 
     private static AtomicInteger total = new AtomicInteger();
@@ -76,19 +77,14 @@ public class ExceptionCountDegradeDemo {
         List<DegradeRule> rules = new ArrayList<DegradeRule>();
         DegradeRule rule = new DegradeRule();
         rule.setResource(KEY);
-        // set limit exception count to 4
-        rule.setCount(4);
-        rule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT);
-        /**
-         * When degrading by {@link RuleConstant#DEGRADE_GRADE_EXCEPTION_COUNT}, time window
-         * less than 60 seconds will not work as expected. Because the exception count is
-         * summed by minute, when a short time window elapsed, the degradation condition
-         * may still be satisfied.
-         */
-        // 这里要求的时间窗口最小值最低是1m,
-        // 设置时间窗口为80s, 就会判断在这个时间窗口内的异常数到了阈值, 达到该阈值就会熔断
-        // 该时间窗口内的请求全部熔断, 抛出DegradeException异常, 走catch降级逻辑.
-        rule.setTimeWindow(80);
+        // set limit exception ratio to 0.1
+        // 将比例设置成0.6将全部通过, exception_ratio = 异常/通过量
+        // 当资源的每秒异常总数占通过量的比值超过阈值（DegradeRule 中的 count）之后，资源进入降级状态
+        rule.setCount(0.6);
+        rule.setGrade(RuleConstant.DEGRADE_GRADE_EXCEPTION_RATIO);
+        //设置窗口时间（降级时间）
+        rule.setTimeWindow(10);
+        //rule.setMinRequestAmount(20);
         rules.add(rule);
         DegradeRuleManager.loadRules(rules);
     }

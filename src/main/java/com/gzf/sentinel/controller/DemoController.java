@@ -66,9 +66,9 @@ public class DemoController{
 //        FlowRuleManager.register2Property(ds.getProperty());
     }
 
-    @GetMapping("/gzf1111")
-    @SentinelResource(value = "gzf1111",blockHandler = "blockMehord")
-    public String hello(){
+    @GetMapping("/sqlOrigin")
+    @SentinelResource(value = "sqlOrigin",blockHandler = "blockMehord")
+    public String sqlOrigin(){
         ReadableDataSource readableDataSource = new MysqlRefreshableDataSource(source ->
                 source.stream().map(openApiAppIdApiQps -> {
                     FlowRule flowRule = new FlowRule();
@@ -84,8 +84,7 @@ public class DemoController{
         // 自定义拉取数据源
         FlowRuleManager.register2Property(readableDataSource.getProperty());
         //initDemo();
-//        System.out.println("hello world");
-        return "hello world";
+        return "success";
     }
 
     @GetMapping("/gzf2222")
