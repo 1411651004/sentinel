@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,9 +89,14 @@ public class DemoController{
     }
 
     @GetMapping("/gzf2222")
+    @SentinelResource(value = "gzf12_04",blockHandler = "blockMehord")
     public List<ResourceRoleQps> hello11(){
+        long first = System.currentTimeMillis();
 
-        return resourceRoleQpsMapper.selectAll();
+        resourceRoleQpsMapper.selectAll();
+        long end = System.currentTimeMillis();
+        System.out.println(end - first);
+        return null;
     }
 
     public String blockMehord(BlockException ex) {
@@ -99,9 +105,11 @@ public class DemoController{
 
     @GetMapping("/jdbc")
     public List<ResourceRoleQps> queryStudent() {
+        long first = System.currentTimeMillis();
+
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(DataSourceUtils.getDataSource());
-        return jdbcTemplate.query("select id, app_id, api, limit_qps, create_at from resource_role_qps"
+        jdbcTemplate.query("select id, app_id, api, limit_qps, create_at from resource_role_qps"
                 ,new RowMapper<ResourceRoleQps>(){
                     @Override
                     public ResourceRoleQps mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -112,6 +120,10 @@ public class DemoController{
                                 resultSet.getLong("create_at"));
                     }
                 });
+
+        long end = System.currentTimeMillis();
+        System.out.println(end - first);
+        return null;
 
     }
 

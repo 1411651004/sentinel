@@ -34,10 +34,10 @@ public class MysqlRefreshableDataSource extends AutoRefreshDataSource<List<Resou
         firstLoad();
     }
 
-    public MysqlRefreshableDataSource() throws Exception {
-        super(flowRuleListParser,DEFAULT_REFRESH_MS);
-        this.close();
-    }
+//    public MysqlRefreshableDataSource() throws Exception {
+//        super(flowRuleListParser,DEFAULT_REFRESH_MS);
+//        this.close();
+//    }
 
     private void firstLoad() {
         try {

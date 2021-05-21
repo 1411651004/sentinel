@@ -25,9 +25,9 @@ public class RelationFlowController {
     @Resource
     RelationService relationService;
 
-//    static {
-//        initRole();
-//    }
+    {
+        initRole();
+    }
 
     private void initRole() {
         List<FlowRule> rules = new ArrayList<FlowRule>();
@@ -56,10 +56,11 @@ public class RelationFlowController {
     }
 
     @GetMapping("/testB")
-    //@SentinelResource(value = "testB",blockHandler = "blockHandlerForGetUser")
+    @SentinelResource(value = "testB",blockHandler = "blockHandlerForGetUser")
     public String testB() {
-        return relationService.testB();
-//        return "success testB!";
+        //return relationService.testB();
+
+        return "success testB!";
     }
 
     public String blockHandlerForGetUser(BlockException ex) {
